@@ -22,16 +22,19 @@ Have a process where:
     When the game starts, a countdown begins
     A question is selected from the collection
     All the elements are added to the DOM 
-    he user will click on one of the answers 
+    the user will click on one of the answers 
     Detect that click and determine if the user clicked on the right answer 
         If yes, add some points 
         If no, subtract 5 or 10 seconds from the time remaining
-        Go the next question
+        Go to the next question
+        repeat this till all questions are answered
 
 After all questions OR after time runs out, show the user their score
 High score tracking
-
 */
+
+// This is a variable for the questions in the quiz
+
 var questions = [
   {
     questionText: "5 + 5 =",
@@ -55,8 +58,12 @@ var questions = [
     questionText: "5 / 5 =",
     choices: ["1) 10", "2) 27", "3) 1", "4) 35"],
     answer: "3) 1",
-  },
+  }
 ];
+
+var questionsIndex = 0;
+
+//setting up the timer for quiz
 
 var timeEl = document.querySelector(".countdown");
 
@@ -72,8 +79,28 @@ function setTime() {
       //insert function for ending of quiz here
     }
   }, 1000);
-}
-function endQuiz() {}
-//Button.addEventListener("click", function() {
-//setTime()
-//})
+};
+
+// create function to ask the questions for the start quiz function
+ 
+function askQuestion() {
+
+};
+
+
+// add function to start quiz
+
+function startQuiz() {
+
+};
+
+//function for ending the quiz and display highscore page
+
+function endQuiz() {
+
+};
+
+document.getElementById("start-button").addEventListener("click", function() {
+startQuiz()
+
+})
