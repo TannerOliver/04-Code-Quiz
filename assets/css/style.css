@@ -25,3 +25,9 @@ body p{
 font-size: 35px;
 text-align:center;
 }
+.hidden {
+    display: none;
+}
+li {
+    font-size: 35px;
+}

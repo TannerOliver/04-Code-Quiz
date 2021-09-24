@@ -58,16 +58,16 @@ var questions = [
     questionText: "5 / 5 =",
     choices: ["1) 10", "2) 27", "3) 1", "4) 35"],
     answer: "3) 1",
-  }
+  },
 ];
 
-var questionsIndex = 0;
+var i = 0;
 
 //setting up the timer for quiz
 
 var timeEl = document.querySelector(".countdown");
 
-var secondsLeft = 60;
+var secondsLeft = 60000;
 
 function setTime() {
   var timerInterval = setInterval(function () {
@@ -79,28 +79,83 @@ function setTime() {
       //insert function for ending of quiz here
     }
   }, 1000);
-};
+}
 
 // create function to ask the questions for the start quiz function
- 
-function askQuestion() {
 
-};
+function askCurrentQuestion() {
+  //how do I get current question out of the array
+  var currentQuestion = document.getElementById("question1");
+  currentQuestion.innerHTML = questions[i].questionText;
+
+  var currentAnswers = document.getElementById("question2");
+  currentAnswers.innerHTML = questions[i].choices[0];
+
+  var currentAnswers = document.getElementById("question3");
+  currentAnswers.innerHTML = questions[i].choices[1];
+
+  var currentAnswers = document.getElementById("question4");
+  currentAnswers.innerHTML = questions[i].choices[2];
+
+  var currentAnswers = document.getElementById("question5");
+  currentAnswers.innerHTML = questions[i].choices[3];
+  // incrementing index
+  i++;
+  //run an onlick here to run checkanswer()
 
 
+  //is there an easier way to add event listeners to multiple multiple objects?
+  document.getElementById("question2").addEventListener("click", checkAnswer);
+  document.getElementById("question3").addEventListener("click", checkAnswer);
+  document.getElementById("question4").addEventListener("click", checkAnswer);
+  document.getElementById("question5").addEventListener("click", checkAnswer);
+}
+
+function checkAnswer() {
+  //write if statement to check if answer is right
+
+  if (currentAnswers === questions.answer[i]) {
+    console.log("that's right");
+  }
+
+  //else deduct seconds
+  else {
+    console.log("that's wrong");
+    secondsLeft - 5000;
+  }
+
+  // if questions is === questions.length run endQuiz()
+  if (questions === questions.lenth) {
+    endQuiz();
+  }
+  //else run askCurrentQuestion
+  else{
+    askCurrentQuestion();
+  };
+}
 // add function to start quiz
 
 function startQuiz() {
+  //targeting "ready" and apply "hidden" styling
+  var ready = document.getElementById("ready");
+  ready.classList.add("hidden");
 
-};
+  //targeting "question-box" and removing "hidden" styling
+  var questionBox = document.getElementById("question-box");
+  questionBox.classList.remove("hidden");
+
+  //run function to ask questions
+  askCurrentQuestion();
+}
 
 //function for ending the quiz and display highscore page
 
 function endQuiz() {
+  //apply hidden style to quiz questions
 
-};
+  //display screen to enter name/initials for high-score
 
-document.getElementById("start-button").addEventListener("click", function() {
-startQuiz()
+  //once entered display screen of highscores
+}
 
-})
+document.getElementById("start-button").addEventListener("click", startQuiz);
