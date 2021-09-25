@@ -72,7 +72,7 @@ var questionBox = document.getElementById("question-box");
 
 var timeEl = document.querySelector(".countdown");
 
-var secondsLeft = 10;
+var secondsLeft = 30;
 
 //functions
 function setTime() {
