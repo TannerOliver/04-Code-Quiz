@@ -33,8 +33,11 @@ After all questions OR after time runs out, show the user their score
 High score tracking
 */
 
-// This is a variable for the questions in the quiz
+//seletors
+var startButton =document.getElementById("start-button");
 
+var highScoreText = document.getElementById("high-score-text");
+// variables
 var questions = [
   {
     questionText: "5 + 5 =",
@@ -63,14 +66,17 @@ var questions = [
 
 var i = 0;
 
-//setting up the timer for quiz
+var timerInterval;
+
+var questionBox = document.getElementById("question-box");
 
 var timeEl = document.querySelector(".countdown");
 
-var secondsLeft = 60000;
+var secondsLeft = 10;
 
+//functions
 function setTime() {
-  var timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     secondsLeft--;
     timeEl.textContent = secondsLeft + " seconds left.";
 
@@ -82,80 +88,97 @@ function setTime() {
 }
 
 // create function to ask the questions for the start quiz function
-
 function askCurrentQuestion() {
-  //how do I get current question out of the array
   var currentQuestion = document.getElementById("question1");
   currentQuestion.innerHTML = questions[i].questionText;
 
-  var currentAnswers = document.getElementById("question2");
-  currentAnswers.innerHTML = questions[i].choices[0];
+  var currentAnswers1 = document.getElementById("question2");
+  currentAnswers1.innerHTML = questions[i].choices[0];
 
-  var currentAnswers = document.getElementById("question3");
-  currentAnswers.innerHTML = questions[i].choices[1];
+  var currentAnswers2 = document.getElementById("question3");
+  currentAnswers2.innerHTML = questions[i].choices[1];
 
-  var currentAnswers = document.getElementById("question4");
-  currentAnswers.innerHTML = questions[i].choices[2];
+  var currentAnswers3 = document.getElementById("question4");
+  currentAnswers3.innerHTML = questions[i].choices[2];
 
-  var currentAnswers = document.getElementById("question5");
-  currentAnswers.innerHTML = questions[i].choices[3];
-  // incrementing index
-  i++;
-  //run an onlick here to run checkanswer()
-
-
-  //is there an easier way to add event listeners to multiple multiple objects?
-  document.getElementById("question2").addEventListener("click", checkAnswer);
-  document.getElementById("question3").addEventListener("click", checkAnswer);
-  document.getElementById("question4").addEventListener("click", checkAnswer);
-  document.getElementById("question5").addEventListener("click", checkAnswer);
+  var currentAnswers4 = document.getElementById("question5");
+  currentAnswers4.innerHTML = questions[i].choices[3];
 }
 
-function checkAnswer() {
-  //write if statement to check if answer is right
+function addEventListeners() {
+  document.getElementById("question2").addEventListener("click", function () {
+    checkAnswer(0);
+  });
+  document.getElementById("question3").addEventListener("click", function () {
+    checkAnswer(1);
+  });
+  document.getElementById("question4").addEventListener("click", function () {
+    checkAnswer(2);
+  });
+  document.getElementById("question5").addEventListener("click", function () {
+    checkAnswer(3);
+  });
+}
 
-  if (currentAnswers === questions.answer[i]) {
+function checkAnswer(selectedAnswer) {
+  //write if statement to check if answer is right
+  if (questions[i].choices[selectedAnswer] === questions[i].answer) {
     console.log("that's right");
   }
-
   //else deduct seconds
   else {
     console.log("that's wrong");
-    secondsLeft - 5000;
+    secondsLeft - 5;
   }
-
   // if questions is === questions.length run endQuiz()
-  if (questions === questions.lenth) {
+  if (i === questions.length - 1) {
     endQuiz();
   }
   //else run askCurrentQuestion
-  else{
+  else {
+    i++;
     askCurrentQuestion();
-  };
+  }
 }
-// add function to start quiz
 
+// add function to start quiz
 function startQuiz() {
   //targeting "ready" and apply "hidden" styling
   var ready = document.getElementById("ready");
   ready.classList.add("hidden");
-
   //targeting "question-box" and removing "hidden" styling
-  var questionBox = document.getElementById("question-box");
   questionBox.classList.remove("hidden");
-
   //run function to ask questions
   askCurrentQuestion();
+  // function for listening if an answer was clicked
+  addEventListeners();
+  // run setTimer()
+  setTime();
 }
 
 //function for ending the quiz and display highscore page
-
 function endQuiz() {
   //apply hidden style to quiz questions
+  questionBox.classList.add("hidden");
+  clearInterval(timerInterval);
+  //display screen to enter name/initialsfor high-score
+  var name = window.prompt("please enter name here");
+  //adding hidden to button
+  startButton.classList.add("hidden");
+  //retrieve exsisting values from local storage
+  var highScoreName = document.getElementById("high-score-name");
+  var highScore = document.getElementById("high-score");
+  //removing hidden class to these objects
+  highScoreName.classList.remove("hidden");
+  highScore.classList.remove("hidden");
+  highScoreText.classList.remove("hidden");
+  //add current value to local storage value
 
-  //display screen to enter name/initials for high-score
-
-  //once entered display screen of highscores
-}
-
-document.getElementById("start-button").addEventListener("click", startQuiz);
+  // save combined data to local storage
+  localStorage.setItem("name", name);
+  localStorage.setItem("score", secondsLeft);
+  // display screen of highscores
+  highScore.innerHTML = localStorage.getItem("score");
+  highScoreName.innerHTML = localStorage.getItem("name");
+};
+startButton.addEventListener("click", startQuiz);
